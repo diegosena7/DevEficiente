@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/dev_eficiente
+    username: root
+    password: Santosfc@1912
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: false
+    properties:
+      hibernate.format_sql: true
+server:
+  port : 8080
