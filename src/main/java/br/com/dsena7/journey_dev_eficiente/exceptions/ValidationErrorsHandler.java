@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @RestControllerAdvice
 @Log4j2
 public class ValidationErrorsHandler {
@@ -20,6 +22,7 @@ public class ValidationErrorsHandler {
 
     @ExceptionHandler(value = BusinessException.class)
     public ResponseEntity<ErrorResponseOutputDto> handleBusinessException(BusinessException ex) {
+        log.error("Exception msg: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponseOutputDto.builder()
                 .message(ex.getMessage())
                 .build());
@@ -27,6 +30,15 @@ public class ValidationErrorsHandler {
 
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponseOutputDto> handleBusinessException(DataIntegrityViolationException ex) {
+        log.error("Exception msg: " + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponseOutputDto.builder()
+                .message(ex.getMessage())
+                .build());
+    }
+
+    @ExceptionHandler(value = SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<ErrorResponseOutputDto> sQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
+        log.error("Exception msg: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponseOutputDto.builder()
                 .message(ex.getMessage())
                 .build());

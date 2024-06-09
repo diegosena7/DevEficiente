@@ -21,6 +21,7 @@ public class ErrorResponseOutputDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String message;
 
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Collection<ErrorFieldsMsg> fieldsMsgs;
 

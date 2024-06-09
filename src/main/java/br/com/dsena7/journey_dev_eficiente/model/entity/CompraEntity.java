@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.mapping.ToOne;
 import org.springframework.util.Assert;
 
 @Entity
@@ -45,6 +46,9 @@ public class CompraEntity {
 
     @ManyToOne
     private EstadoEntity estado;
+
+    @OneToOne
+    private CupomEntity cupomEntity;
 
     @Column(nullable = false)
     private String telefone;
