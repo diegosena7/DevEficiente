@@ -4,6 +4,7 @@ import br.com.dsena7.journey_dev_eficiente.model.entity.CupomEntity;
 import br.com.dsena7.journey_dev_eficiente.model.entity.EstadoEntity;
 import br.com.dsena7.journey_dev_eficiente.model.entity.CompraEntity;
 import br.com.dsena7.journey_dev_eficiente.model.entity.PaisEntity;
+import br.com.dsena7.journey_dev_eficiente.service.AplicaCupomEmCompraService;
 import br.com.dsena7.journey_dev_eficiente.validators.CepValid;
 import br.com.dsena7.journey_dev_eficiente.validators.ExistsId;
 import jakarta.persistence.EntityManager;
@@ -98,6 +99,7 @@ public class CompraDto {
                 .email(email)
                 .telefone(telefone)
                 .cupomEntity(cupom)
+                .aplicaCupomEmCompraService(new AplicaCupomEmCompraService(cupom.getPercentual(), cupom.getDataDeValidade()))
                 .build();
 
         if(idEstado != null){

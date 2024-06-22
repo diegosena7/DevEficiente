@@ -1,8 +1,6 @@
 package br.com.dsena7.journey_dev_eficiente.model.entity;
 
-import br.com.dsena7.journey_dev_eficiente.validators.ExistsId;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
@@ -16,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name="cupom_entity")
+@Table(name = "cupom_entity")
 public class CupomEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)

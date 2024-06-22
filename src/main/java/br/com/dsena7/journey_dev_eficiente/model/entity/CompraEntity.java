@@ -1,5 +1,6 @@
 package br.com.dsena7.journey_dev_eficiente.model.entity;
 
+import br.com.dsena7.journey_dev_eficiente.service.AplicaCupomEmCompraService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,6 +57,9 @@ public class CompraEntity {
 
     @Column(nullable = false)
     private String cep;
+
+    @Embedded
+    private AplicaCupomEmCompraService aplicaCupomEmCompraService;
 
     public void setEstado(EstadoEntity estado) {
         Assert.notNull(pais,"Não rola associar um estado enquanto o pais for nulo");
