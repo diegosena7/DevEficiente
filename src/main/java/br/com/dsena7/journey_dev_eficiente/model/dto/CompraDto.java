@@ -1,5 +1,6 @@
 package br.com.dsena7.journey_dev_eficiente.model.dto;
 
+import br.com.dsena7.journey_dev_eficiente.model.entity.CupomEntity;
 import br.com.dsena7.journey_dev_eficiente.model.entity.EstadoEntity;
 import br.com.dsena7.journey_dev_eficiente.model.entity.CompraEntity;
 import br.com.dsena7.journey_dev_eficiente.model.entity.PaisEntity;
@@ -63,9 +64,11 @@ public class CompraDto {
     @NotNull
     private CarrinhoCompraDto pedido;
 
+    private CupomRequestDto cupom;
+
     public CompraDto(@Email @NotBlank String email, @NotBlank String nome, @NotBlank String sobrenome, @NotBlank @CPF @CNPJ String documento,
                      @NotBlank String endereco, @NotBlank String complemento, @NotBlank String cidade, @NotNull Long idPais, @NotNull Long idEstado,
-                     @NotBlank String telefone, @NotBlank String cep, @NotNull CarrinhoCompraDto pedido) {
+                     @NotBlank String telefone, @NotBlank String cep, @NotNull CarrinhoCompraDto pedido, CupomRequestDto cupom) {
         this.email = email;
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -78,9 +81,10 @@ public class CompraDto {
         this.telefone = telefone;
         this.cep = cep;
         this.pedido = pedido;
+        this.cupom = cupom;
     }
 
-    public CompraEntity toEntity(EntityManager entityManager){
+    public CompraEntity toEntity(EntityManager entityManager, CupomEntity cupom){
         @NotNull PaisEntity pais = entityManager.find(PaisEntity.class, idPais);
         EstadoEntity estado;
 
@@ -93,6 +97,7 @@ public class CompraDto {
                 .documento(documento)
                 .email(email)
                 .telefone(telefone)
+                .cupomEntity(cupom)
                 .build();
 
         if(idEstado != null){
