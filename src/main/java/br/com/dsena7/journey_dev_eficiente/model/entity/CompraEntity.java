@@ -48,6 +48,7 @@ public class CompraEntity {
     private EstadoEntity estado;
 
     @OneToOne
+    @JoinColumn(name = "codigo_cupom", referencedColumnName = "codigo")
     private CupomEntity cupomEntity;
 
     @Column(nullable = false)

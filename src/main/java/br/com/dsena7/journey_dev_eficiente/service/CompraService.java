@@ -2,14 +2,16 @@ package br.com.dsena7.journey_dev_eficiente.service;
 
 import br.com.dsena7.journey_dev_eficiente.exceptions.BusinessException;
 import br.com.dsena7.journey_dev_eficiente.model.dto.CompraDto;
-import br.com.dsena7.journey_dev_eficiente.model.entity.CompraEntity;
 import br.com.dsena7.journey_dev_eficiente.model.entity.CupomEntity;
 import br.com.dsena7.journey_dev_eficiente.repository.CompraRepository;
 import br.com.dsena7.journey_dev_eficiente.repository.CupomRepository;
+import com.mysql.cj.util.StringUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 public class CompraService {
@@ -22,20 +24,25 @@ public class CompraService {
 
     @Autowired
     private CupomRepository cupomRepository;
+
     public String compra(CompraDto compraDto) throws BusinessException {
-        String codigo = "";
-        if (compraDto.getCupom() != null){
-            codigo = compraDto.getCupom().getCodigo();
+
+        CupomEntity cupomEntity = null;
+
+        if (!StringUtils.isNullOrEmpty(compraDto.getCodigoCupom())) {
+            cupomEntity = cupomRepository.findByCodigo(compraDto.getCodigoCupom());
+            if (cupomEntity == null) {
+                throw new BusinessException("Código do cupom inserido não existe");
+            }
+            validaDataCupom(cupomEntity);
         }
-
-        CupomEntity cupomEntity = cupomRepository.findByCodigo(codigo);
-
-        if(cupomEntity == null){
-            throw new BusinessException("Código do cupom inserido não existe");
-        }
-
-        CompraEntity entity = compraDto.toEntity(entityManager, cupomEntity);
-        repository.save(entity);
+        repository.save(compraDto.toEntity(entityManager, cupomEntity));
         return "Compra efetuada";
+    }
+
+    private static void validaDataCupom(CupomEntity cupomEntity) throws BusinessException {
+        if (cupomEntity.getDataDeValidade().isBefore(LocalDate.now())) {
+            throw new BusinessException("Cupom com validade excedida.");
+        }
     }
 }

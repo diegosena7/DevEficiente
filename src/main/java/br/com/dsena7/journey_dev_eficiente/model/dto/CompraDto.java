@@ -64,11 +64,11 @@ public class CompraDto {
     @NotNull
     private CarrinhoCompraDto pedido;
 
-    private CupomRequestDto cupom;
+    private String codigoCupom;
 
     public CompraDto(@Email @NotBlank String email, @NotBlank String nome, @NotBlank String sobrenome, @NotBlank @CPF @CNPJ String documento,
                      @NotBlank String endereco, @NotBlank String complemento, @NotBlank String cidade, @NotNull Long idPais, @NotNull Long idEstado,
-                     @NotBlank String telefone, @NotBlank String cep, @NotNull CarrinhoCompraDto pedido, CupomRequestDto cupom) {
+                     @NotBlank String telefone, @NotBlank String cep, @NotNull CarrinhoCompraDto pedido, String codigoCupom) {
         this.email = email;
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -81,7 +81,7 @@ public class CompraDto {
         this.telefone = telefone;
         this.cep = cep;
         this.pedido = pedido;
-        this.cupom = cupom;
+        this.codigoCupom = codigoCupom;
     }
 
     public CompraEntity toEntity(EntityManager entityManager, CupomEntity cupom){
