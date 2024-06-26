@@ -61,6 +61,10 @@ public class CompraEntity {
     @Embedded
     private AplicaCupomEmCompraService aplicaCupomEmCompraService;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carrinho_id")
+    private CarrinhoCompraEntity pedido;
+
     public void setEstado(EstadoEntity estado) {
         Assert.notNull(pais,"Não rola associar um estado enquanto o pais for nulo");
         Assert.isTrue(estado.pertenceAPais(pais),"Este estado não é do país associado a compra");

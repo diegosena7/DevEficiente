@@ -4,6 +4,7 @@ import br.com.dsena7.journey_dev_eficiente.model.entity.CupomEntity;
 import br.com.dsena7.journey_dev_eficiente.model.entity.EstadoEntity;
 import br.com.dsena7.journey_dev_eficiente.model.entity.CompraEntity;
 import br.com.dsena7.journey_dev_eficiente.model.entity.PaisEntity;
+import br.com.dsena7.journey_dev_eficiente.model.mappers.CarrinhoCompraMapper;
 import br.com.dsena7.journey_dev_eficiente.service.AplicaCupomEmCompraService;
 import br.com.dsena7.journey_dev_eficiente.validators.CepValid;
 import br.com.dsena7.journey_dev_eficiente.validators.ExistsId;
@@ -85,7 +86,7 @@ public class CompraDto {
         this.codigoCupom = codigoCupom;
     }
 
-    public CompraEntity toEntity(EntityManager entityManager, CupomEntity cupom){
+    public CompraEntity toEntity(EntityManager entityManager, CupomEntity cupom, CompraDto compraDto){
         @NotNull PaisEntity pais = entityManager.find(PaisEntity.class, idPais);
         EstadoEntity estado;
 
@@ -100,6 +101,7 @@ public class CompraDto {
                 .telefone(telefone)
                 .cupomEntity(cupom)
                 .aplicaCupomEmCompraService(new AplicaCupomEmCompraService(cupom.getPercentual(), cupom.getDataDeValidade()))
+                .pedido(CarrinhoCompraMapper.toEntity(compraDto.getPedido()))
                 .build();
 
         if(idEstado != null){

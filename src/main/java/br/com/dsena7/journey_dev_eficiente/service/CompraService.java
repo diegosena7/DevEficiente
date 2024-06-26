@@ -3,6 +3,8 @@ package br.com.dsena7.journey_dev_eficiente.service;
 import br.com.dsena7.journey_dev_eficiente.exceptions.BusinessException;
 import br.com.dsena7.journey_dev_eficiente.model.dto.CompraDto;
 import br.com.dsena7.journey_dev_eficiente.model.entity.CupomEntity;
+import br.com.dsena7.journey_dev_eficiente.model.mappers.CarrinhoCompraMapper;
+import br.com.dsena7.journey_dev_eficiente.repository.CarrinhoCompraRepository;
 import br.com.dsena7.journey_dev_eficiente.repository.CompraRepository;
 import br.com.dsena7.journey_dev_eficiente.repository.CupomRepository;
 import com.mysql.cj.util.StringUtils;
@@ -25,7 +27,12 @@ public class CompraService {
     @Autowired
     private CupomRepository cupomRepository;
 
+    @Autowired
+    private CarrinhoCompraRepository carrinhoCompraRepository;
+
     public String compra(CompraDto compraDto) throws BusinessException {
+
+        carrinhoCompraRepository.save(CarrinhoCompraMapper.toEntity(compraDto.getPedido()));
 
         CupomEntity cupomEntity = null;
 
@@ -36,7 +43,7 @@ public class CompraService {
             }
             validaDataCupom(cupomEntity);
         }
-        repository.save(compraDto.toEntity(entityManager, cupomEntity));
+        repository.save(compraDto.toEntity(entityManager, cupomEntity, compraDto));
         return "Compra efetuada";
     }
 
